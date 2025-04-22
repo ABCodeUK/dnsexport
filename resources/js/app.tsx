@@ -24,7 +24,7 @@ createInertiaApp({
                 <MainLayout>{page}</MainLayout>
             );
 
-            module.default.layout ??= defaultLayout;
+            (module as any).default.layout ??= defaultLayout;
             return module;
         });
     },

@@ -1,4 +1,4 @@
-    "use client"
+"use client"
 
 import {
   ColumnDef,
@@ -14,7 +14,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/Components/ui/table"  // Changed casing to match the file system
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]

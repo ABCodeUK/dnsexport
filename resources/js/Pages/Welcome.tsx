@@ -1,11 +1,6 @@
 import { PageProps } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import React from 'react';
-import Navbar from "@/components/Home/Navbar";
-import Hero from "@/components/Home/Hero";
-import Features from "@/components/Home/Features";
-import FAQ from "@/components/Home/FAQ";
-import Footer from "@/components/Home/Footer";
 
 export default function Welcome({
     auth,
