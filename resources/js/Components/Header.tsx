@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Sun, Moon } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Button } from "@/Components/ui/button";
 
 const Header = () => {
     const [darkMode, setDarkMode] = useState(true); // Default to dark mode

@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
-import { Settings, Search } from "lucide-react"; // Import the icons
+import { Input } from "@/Components/ui/input";
+import { Button } from "@/Components/ui/button";
+import { Card } from "@/Components/ui/card";
+import { Progress } from "@/Components/ui/progress";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -11,28 +10,26 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-// Remove this import as it's no longer needed
-// import { usePage } from "@inertiajs/react";
+} from "@/Components/ui/dropdown-menu";
+import { Settings, Search } from "lucide-react";
+
+// Define interface for DNS record
+interface DNSRecord {
+  name: string;
+  type: string;
+  value: string;
+  ttl: number;
+  priority: number;
+}
+
+// Define interface for subdomains
+interface SubdomainConfig {
+  [key: string]: boolean;
+}
 
 const HomepageTool = () => {
-  // Remove any remaining auth-related code
-  const downloadFile = (format: string) => {
-    const encodedRecords = encodeURIComponent(JSON.stringify(results));
-    const url = `/download?domain=${domain}&format=${format}&records=${encodedRecords}`;
-    window.location.href = url;
-  };
-  
-  // State declarations
-  const [domain, setDomain] = useState("");
-  const [results, setResults] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [progress, setProgress] = useState(0);
-  const [progressTimer, setProgressTimer] = useState<NodeJS.Timeout | null>(null);
-
-  // Define default subdomains
-  const defaultSubdomains = {
+  // Define default subdomains first
+  const defaultSubdomains: SubdomainConfig = {
     www: true,
     mail: false,
     imap: false,
@@ -43,8 +40,15 @@ const HomepageTool = () => {
     webmail: false,
     cpanel: false,
   };
-  
-  const [selectedSubdomains, setSelectedSubdomains] = useState(defaultSubdomains);
+
+  // State declarations
+  const [domain, setDomain] = useState("");
+  const [results, setResults] = useState<DNSRecord[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [progress, setProgress] = useState(0);
+  const [progressTimer, setProgressTimer] = useState<NodeJS.Timeout | null>(null);
+  const [selectedSubdomains, setSelectedSubdomains] = useState<SubdomainConfig>(defaultSubdomains);
 
   // Load and save preferences using localStorage
   const loadStoredPreferences = () => {
@@ -58,7 +62,7 @@ const HomepageTool = () => {
   };
 
   const toggleSubdomain = (key: string) => {
-    const newPreferences = {
+    const newPreferences: SubdomainConfig = {
       ...selectedSubdomains,
       [key]: !selectedSubdomains[key],
     };
@@ -135,9 +139,6 @@ const HomepageTool = () => {
 
   // Download buttons logic update
   const downloadFile = (format: string) => {
-    if ((format === 'csv' && !canDownloadCSV) || (format === 'zone' && !canDownloadZone)) {
-      return;
-    }
     const encodedRecords = encodeURIComponent(JSON.stringify(results));
     const url = `/download?domain=${domain}&format=${format}&records=${encodedRecords}`;
     window.location.href = url;
