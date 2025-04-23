@@ -12,6 +12,14 @@ import {
   DropdownMenuTrigger,
 } from "@/Components/ui/dropdown-menu";
 import { Settings, Search } from "lucide-react";
+import { Switch } from "@/Components/ui/switch";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/Components/ui/dialog";
 
 // Define interface for DNS record
 interface DNSRecord {
@@ -144,6 +152,12 @@ const HomepageTool = () => {
     window.location.href = url;
   };
 
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      fetchDNSRecords();
+    }
+  };
+
   return (
     <div className="container mx-auto p-10 flex-grow">
       <h1 className="text-6xl font-extrabold tracking-tight text-[hsl(var(--text-standard))] text-center">
@@ -164,7 +178,8 @@ const HomepageTool = () => {
               placeholder="Enter a domain (e.g., example.com)"
               value={domain}
               onChange={(e) => setDomain(e.target.value)}
-              className="w-full pr-[120px]"
+              onKeyDown={handleKeyPress}
+              className="w-full pr-[120px] focus:ring-[hsl(var(--primary))] focus:border-[hsl(var(--primary))] border-[hsl(var(--border))]"
             />
             <Button
               onClick={fetchDNSRecords}
@@ -177,27 +192,30 @@ const HomepageTool = () => {
           </div>
 
           {/* Dropdown Menu */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline">
+          <Dialog>
+            <DialogTrigger asChild>
+              <Button variant="outline" className="bg-[hsl(var(--accent))] text-[hsl(var(--accent-foreground))] hover:bg-[hsl(var(--accent-hover))]">
                 <Settings className="h-4 w-4 mr-2" />
                 Config
               </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56">
-              <DropdownMenuLabel>Subdomains to Scan</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              {Object.keys(selectedSubdomains).map((key) => (
-                <DropdownMenuCheckboxItem
-                  key={key}
-                  checked={selectedSubdomains[key]}
-                  onCheckedChange={() => toggleSubdomain(key)}
-                >
-                  {key}
-                </DropdownMenuCheckboxItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle>Subdomain Settings</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4 py-4">
+                {Object.keys(selectedSubdomains).map((key) => (
+                  <div key={key} className="flex items-center justify-between px-1">
+                    <span className="text-sm font-medium">{key}</span>
+                    <Switch
+                      checked={selectedSubdomains[key]}
+                      onCheckedChange={() => toggleSubdomain(key)}
+                    />
+                  </div>
+                ))}
+              </div>
+            </DialogContent>
+          </Dialog>
         </div>
 
         {/* Progress Bar */}

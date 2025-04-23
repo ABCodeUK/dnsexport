@@ -98,3 +98,27 @@
     background-color: hsl(var(--primary-hover));
   }
 }
+
+@layer base {
+  :root {
+    --chart-1: 193 89% 53%;  /* Sky blue */
+    --chart-2: 196 91% 44%;  /* Darker sky blue */
+    --chart-3: 199 89% 48%;  /* Alternative sky blue */
+    --chart-4: 201 96% 32%;  /* Deep sky blue */
+    --chart-5: 190 77% 88%;  /* Light sky blue */
+    --accent: 193 89% 53%;  /* Match primary sky blue */
+    --accent-foreground: 0 0% 98%;
+    --accent-hover: 196 91% 44%;  /* Match primary hover */
+  }
+
+  .dark {
+    --chart-1: 193 89% 53%;  /* Sky blue */
+    --chart-2: 196 91% 44%;  /* Darker sky blue */
+    --chart-3: 199 89% 48%;  /* Alternative sky blue */
+    --chart-4: 201 96% 32%;  /* Deep sky blue */
+    --chart-5: 190 77% 88%;  /* Light sky blue */
+    --accent: 193 89% 53%;  /* Match primary sky blue */
+    --accent-foreground: 255 255 255;
+    --accent-hover: 196 91% 44%;  /* Match primary hover */
+  }
+}
